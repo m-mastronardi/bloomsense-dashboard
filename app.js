@@ -29,3 +29,29 @@
 
   // Display previously saved records
   render();
+
+  // READ: Load previously saved sensor records
+  function loadRecords() {
+    try {
+      // Retrieve data from the browser's local storage
+      const stored = localStorage.getItem(STORAGE_KEY);
+
+      // Convert stored JSON back into an array
+      return stored ? JSON.parse(stored) : [];
+
+    } catch (error) {
+      console.error("Failed to load sensor records", error);
+      return [];
+    }
+  }
+
+  // WRITE: Save sensor records to local storage
+  function saveRecords() {
+    try {
+      // Convert the records array into JSON and save it
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+
+    } catch (error) {
+      console.error("Failed to save sensor records", error);
+    }
+  }
