@@ -10,3 +10,76 @@
     <script src="app.js" defer></script>
   </head>
 </html>
+
+<body>
+  <header class="header">
+    <div class="brand">
+      <span Class="brand-icon" aria-hidden="true">🌱</span>
+    </div>
+    <div>
+      <h1>BloonSense</h1>
+      <p>Greenhouse Sensor Logger</p>
+    </div>
+
+    <div class="header-status">
+      Active Readings:
+      <span id=" queue-count">0</span>
+    </div>
+  </header>
+
+  <!-- MAIN DASHBOARD -->
+  <main class="dashboard">
+    <!-- DASHBOARD CARDS -->
+    <section id="sensor-entery" class="panel">
+      <div class="sensor-heading">
+        <p class="sensor-heading-text">DATA COLLECTION</p>
+        <h2>Record Sensor Readings</h2>
+        <p>Enter the latest environmental measurements.</p>
+      </div>
+
+      <!--Error Message Banner-->
+      <div
+        id="form-error-banner"
+        class="alert hidden"
+        role="alert"
+        aria-live="polite"
+      ></div>
+
+      <!--Sensor Form-->
+      <form id="sensor-form" novalidate>
+        <!-- GreenHouse Bay -->
+        <div class="form-group">
+          <label for="greenhouse-bay">Greenhouse Bay</label>
+          <select id="greenhouse-bay" name="greenhouse-bay" required>
+            <option value="">Select Bay</option>
+            <option value="Bay 1">Bay A</option>
+            <option value="Bay 2">Bay B</option>
+            <option value="Bay 3">Bay C</option>
+          </select>
+          <small id="bay-error" class="field-error"></small>
+        </div>
+
+        <!--pH level-->
+        <div class="form-group">
+          <label for="ph">pH Level</label>
+          <div class="input-with-unit">
+            <input
+              id="ph"
+              name="ph"
+              type="number"
+              min="0"
+              max="14"
+              step="0.1"
+              placeholder="e.g. 6.0"
+              required
+            />
+            <span>pH</span>
+          </div>
+          <small id="ph-error" class="field-error"></small>
+        </div>
+
+        <!--Electrical Conductivity-->
+      </form>
+    </section>
+  </main>
+</body>
