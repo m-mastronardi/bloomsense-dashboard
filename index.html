@@ -133,8 +133,63 @@
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">+ Record Reading</button>
+        <button type="submit" class="btn btn-primary">Record Reading</button>
       </form>
     </section>
+
+    <!-- SENSOR LOG HISTORY PANEL -->
+    <section id="log-history" class="panel">
+      <div class="record-header">
+        <div class="section-heading">
+          <p class="section-heading-text">MONITORING</p>
+          <h2>Sensor Log History</h2>
+          <p>View the most previous sensor reading.</p>
+        </div>
+
+        <button id="clear-all" class="btn btn-secondary" type="button">
+          Clear All
+        </button>
+      </div>
+     <!-- DASHBOARD STATISTICS -->
+      <div class="summary-strip">
+        <div>
+          <span>Total Records</span>
+          <strong id="total-count">0</strong>
+        </div>
+
+        <div>
+          <span>Optimal</span>
+          <strong id="optimal-count">0</strong>
+        </div>
+
+        <div>
+          <span>Warnings / Hazards</span>
+          <strong id="alert-count">0</strong>
+        </div>
+      </div>
+
+      <!-- Empty Log Message -->
+      <p id="empty-message" class="empty-state">
+        🌿 No readings recorded yet. Add your first sensor
+        reading to get started.
+      </p>
+
+      <!-- Dynamic Sensor Records -->
+      <section
+        id="log-list"
+        class="records-grid"
+        aria-label="Saved sensor readings"
+        aria-live="polite">
+      </section>
+
+    </section>
+
   </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>BloomSense · Greenhouse Environmental Monitoring</p>
+  </footer>
+
 </body>
+</html>
