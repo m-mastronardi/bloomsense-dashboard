@@ -1,0 +1,245 @@
+/* COLOR PALETTE */
+:root {
+  --lemon: #fff2c9;
+  --sage: #a8b28c;
+  --fern: #51714e;
+  --emerald: #1a6618;
+  --indigo: #272541;
+
+  --background: #f8f7ee;
+  --white: #ffffff;
+  --text-main: #272541;
+  --text-muted: #667064;
+  --border: #dde3d5;
+
+  --danger: #c2413b;
+  --warning: #d68a22;
+  --success: #1a6618;
+
+  --radius: 14px;
+}
+
+/* GENERAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: var(--background);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+}
+
+/* HEADER  */
+
+.site-header {
+  background-color: var(--indigo);
+  color: var(--white);
+  padding: 22px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-icon {
+  background-color: var(--emerald);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 28px;
+}
+
+.brand h1 {
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.brand p {
+  font-size: 13px;
+  color: var(--sage);
+}
+
+.header-status {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+#queue-count {
+  background-color: var(--sage);
+  color: var(--indigo);
+  padding: 3px 9px;
+  border-radius: 20px;
+  margin-left: 7px;
+  font-weight: bold;
+}
+
+/* DASHBOARD LAYOUT */
+
+.dashboard {
+  width: 100%;
+  max-width: 1350px;
+  margin: 40px auto;
+  padding: 0 25px;
+
+  display: grid;
+  grid-template-columns: 390px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  flex: 1;
+}
+
+.panel {
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: 0 5px 22px rgba(39, 37, 65, 0.05);
+}
+
+.section-heading {
+  margin-bottom: 25px;
+}
+
+.eyebrow {
+  color: var(--fern);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.section-heading h2 {
+  color: var(--indigo);
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.section-heading > p:last-child {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* FORM STYLING */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 21px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--indigo);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: #fafbf8;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--emerald);
+  box-shadow: 0 0 0 3px rgba(26, 102, 24, 0.12);
+}
+
+.form-group input::placeholder {
+  color: #9a9f98;
+}
+
+/* INPUTS WITH UNITS */
+.input-with-unit {
+  position: relative;
+}
+
+.input-with-unit input {
+  padding-right: 75px;
+}
+
+.input-with-unit span {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fern);
+  font-size: 12px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+/* BUTTONS */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--sage);
+  outline-offset: 3px;
+}
+
+.btn-primary {
+  width: 100%;
+  background-color: var(--emerald);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: var(--fern);
+}
+
+.btn-secondary {
+  background-color: var(--lemon);
+  border-color: var(--sage);
+  color: var(--indigo);
+}
+
+.btn-secondary:hover {
+  background-color: var(--sage);
+}
