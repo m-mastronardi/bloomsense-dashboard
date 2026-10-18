@@ -243,3 +243,254 @@ body {
 .btn-secondary:hover {
   background-color: var(--sage);
 }
+/* VALIDATION AND ERROR MESSAGES */
+
+.hidden {
+  display: none !important;
+}
+
+.alert {
+  background-color: #fff0ee;
+  color: #9e2925;
+  border: 1px solid var(--danger);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 12px;
+}
+
+.form-group input.input-invalid,
+.form-group select.input-invalid {
+  border-color: var(--danger);
+  background-color: #fff5f3;
+}
+
+.form-group input.input-invalid:focus,
+.form-group select.input-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(194, 65, 59, 0.15);
+}
+
+/* SENSOR HISTORY */
+
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.records-header .section-heading {
+  margin-bottom: 20px;
+}
+
+/* SUMMARY STATISTICS */
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.summary-strip > div {
+  background-color: #f4f6ef;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.summary-strip span {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.summary-strip strong {
+  font-size: 25px;
+  color: var(--indigo);
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  background-color: #fafbf7;
+  border: 2px dashed var(--sage);
+  border-radius: 12px;
+  padding: 55px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* DYNAMIC SENSOR CARDS */
+.records-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.sensor-record {
+  background-color: #fafbf7;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--fern);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.sensor-record h3 {
+  font-size: 17px;
+  color: var(--indigo);
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.record-time {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.record-readings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.record-reading {
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.record-reading span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.record-reading strong {
+  color: var(--indigo);
+  font-size: 16px;
+}
+
+/* STATUS CLASSIFICATIONS */
+.status {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-optimal {
+  border-left-color: var(--success);
+}
+
+.status-warning {
+  border-left-color: var(--warning);
+}
+
+.status-critical {
+  border-left-color: var(--danger);
+}
+
+.status-optimal .status {
+  background-color: #e1f2dd;
+  color: #195d23;
+}
+
+.status-warning .status {
+  background-color: #fff0d4;
+  color: #895300;
+}
+
+.status-critical .status {
+  background-color: #fce4e1;
+  color: #a32e29;
+}
+
+/* DELETE RECORD BUTTON */
+.delete-record {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.delete-record:hover {
+  background-color: var(--danger);
+  color: var(--white);
+}
+
+/* FOOTER */
+
+.site-footer {
+  text-align: center;
+  padding: 22px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 950px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    max-width: 750px;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .dashboard {
+    padding: 0 15px;
+    margin: 20px auto;
+    gap: 18px;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+
+  .records-header {
+    flex-direction: column;
+  }
+
+  .summary-strip {
+    gap: 7px;
+  }
+
+  .summary-strip > div {
+    padding: 10px;
+  }
+
+  .summary-strip strong {
+    font-size: 21px;
+  }
+
+  .record-readings {
+    grid-template-columns: 1fr;
+  }
+}
