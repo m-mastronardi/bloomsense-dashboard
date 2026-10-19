@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  // Name for our browser's local storage
+  // local storage
   const STORAGE_KEY = "bloomsense_sensor_records_v1";
 
-  // Grab HTML elements using the document API
+  // get html elements
   const sensorForm = document.getElementById("sensor-form");
   const errorBanner = document.getElementById("form-error-banner");
   const logList = document.getElementById("log-list");
@@ -12,51 +12,47 @@
   const emptyMessage = document.getElementById("empty-message");
   const clearAllButton = document.getElementById("clear-all");
 
-  // Grab sensor input fields
+  // sensor inputs
   const inputBay = document.getElementById("bay");
   const inputPh = document.getElementById("ph");
   const inputEc = document.getElementById("ec");
   const inputTemp = document.getElementById("temp");
   const inputHumidity = document.getElementById("humidity");
 
-  // Grab dashboard counters
+  // dashboard counters
   const totalCount = document.getElementById("total-count");
   const optimalCount = document.getElementById("optimal-count");
   const alertCount = document.getElementById("alert-count");
 
-  // Initialize the records array
-  let records = loadRecords();
+  const sensorInputs = [inputBay, inputPh, inputEc, inputTemp, inputHumidity];
 
-  // Display previously saved records
+  let records = loadRecords();
   render();
 
-  // READ: Load previously saved sensor records
+  // load saved records
   function loadRecords() {
     try {
-      // Retrieve data from the browser's local storage
       const stored = localStorage.getItem(STORAGE_KEY);
-
-      // Convert stored JSON back into an array
-      return stored ? JSON.parse(stored) : [];
+      const parsed = stored ? JSON.parse(stored) : [];
+      return Array.isArray(parsed) ? parsed : [];
     } catch (error) {
       console.error("Failed to load sensor records", error);
       return [];
     }
   }
 
-  // WRITE: Save sensor records to local storage
+  // save records
   function saveRecords() {
     try {
-      // Convert the records array into JSON and save it
       localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
     } catch (error) {
       console.error("Failed to save sensor records", error);
+      displayError("Unable to save readings to browser storage.");
     }
   }
 
-  // Determine the status of greenhouse conditions
+  // sensor classification
   function evaluateStatus(ph, ec, temp, humidity) {
-    // Check for critical conditions first
     if (
       ph < 4.5 ||
       ph > 7.5 ||
@@ -70,7 +66,6 @@
       return { level: "critical", label: "Critical Hazard" };
     }
 
-    // Check for warning conditions
     if (
       ph < 5.5 ||
       ph > 6.5 ||
@@ -84,39 +79,29 @@
       return { level: "warning", label: "Warning" };
     }
 
-    // Otherwise, conditions are optimal
     return { level: "optimal", label: "Optimal" };
   }
 
-  /* ========================================
-     INPUT VALIDATION
-  ======================================== */
-
-  // Check sensor readings for invalid values
+  // input validation
   function validateInput(data) {
     const errors = [];
 
-    // Greenhouse Bay must be selected
     if (!["A", "B", "C"].includes(data.bay)) {
       errors.push("Please select a valid greenhouse bay.");
     }
 
-    // pH must be between 0 and 14
     if (!Number.isFinite(data.ph) || data.ph < 0 || data.ph > 14) {
       errors.push("pH must be a number between 0 and 14.");
     }
 
-    // Electrical Conductivity cannot be negative
     if (!Number.isFinite(data.ec) || data.ec < 0) {
       errors.push("EC must be a number greater than or equal to 0.");
     }
 
-    // Temperature must be a valid number
     if (!Number.isFinite(data.temperature)) {
       errors.push("Temperature must be a valid number.");
     }
 
-    // Humidity must be between 0 and 100
     if (
       !Number.isFinite(data.humidity) ||
       data.humidity < 0 ||
@@ -128,16 +113,68 @@
     return errors;
   }
 
-  /* ========================================
-     FORM SUBMISSION
-  ======================================== */
+  // live validation
+  function validateField(input) {
+    const value = input.value.trim();
+    const errorElement = document.getElementById(input.id + "-error");
+    let message = "";
 
-  // Run this code when the user submits the sensor form
+    if (input.validity.badInput) {
+      message = "Please enter a valid number.";
+    } else if (value === "") {
+      message = "This field is required.";
+    } else if (input === inputBay) {
+      if (!["A", "B", "C"].includes(value)) {
+        message = "Please select a valid bay.";
+      }
+    } else if (!Number.isFinite(Number(value))) {
+      message = "Please enter a valid number.";
+    } else if (input.validity.rangeUnderflow || input.validity.rangeOverflow) {
+      message = "Value is outside the allowed range.";
+    } else if (input.validity.stepMismatch) {
+      message = "Please enter a value in increments of 0.1.";
+    }
+
+    errorElement.textContent = message;
+
+    if (message !== "") {
+      input.classList.add("input-invalid");
+      input.setAttribute("aria-invalid", "true");
+    } else {
+      input.classList.remove("input-invalid");
+      input.setAttribute("aria-invalid", "false");
+    }
+
+    return message;
+  }
+
+  sensorInputs.forEach(function (input) {
+    const eventName = input === inputBay ? "change" : "input";
+
+    input.addEventListener(eventName, function () {
+      validateField(input);
+    });
+  });
+
+  // form submission
   sensorForm.addEventListener("submit", function (event) {
-    // Prevent the page from refreshing
     event.preventDefault();
 
-    // Collect the user's sensor readings
+    const fieldErrors = [];
+
+    sensorInputs.forEach(function (input) {
+      const message = validateField(input);
+
+      if (message !== "") {
+        fieldErrors.push(message);
+      }
+    });
+
+    if (fieldErrors.length > 0) {
+      displayError("Please correct the highlighted fields.");
+      return;
+    }
+
     const formData = {
       id: crypto.randomUUID(),
       bay: inputBay.value,
@@ -148,19 +185,6 @@
       timestamp: new Date().toLocaleString(),
     };
 
-    // Check that all fields have been filled out
-    if (
-      inputBay.value === "" ||
-      inputPh.value.trim() === "" ||
-      inputEc.value.trim() === "" ||
-      inputTemp.value.trim() === "" ||
-      inputHumidity.value.trim() === ""
-    ) {
-      displayError("Please complete all sensor fields.");
-      return;
-    }
-
-    // Check that sensor values are valid
     const validationErrors = validateInput(formData);
 
     if (validationErrors.length > 0) {
@@ -168,10 +192,8 @@
       return;
     }
 
-    // Hide previous error messages
     hideError();
 
-    // Classify the greenhouse conditions
     formData.status = evaluateStatus(
       formData.ph,
       formData.ec,
@@ -179,19 +201,146 @@
       formData.humidity,
     );
 
-    // Add the newest reading to the beginning of the array
     records.unshift(formData);
-
-    // Save the updated records to local storage
     saveRecords();
 
-    // Reset the form
     sensorForm.reset();
 
-    // Update the dashboard
-    render();
+    sensorInputs.forEach(function (input) {
+      input.classList.remove("input-invalid");
+      input.removeAttribute("aria-invalid");
+      document.getElementById(input.id + "-error").textContent = "";
+    });
 
-    // Move the cursor back to the first input
+    render();
     inputBay.focus();
   });
+
+  // delete individual record
+  logList.addEventListener("click", function (event) {
+    const target = event.target;
+
+    if (target.classList.contains("delete-record")) {
+      const recordId = target.dataset.id;
+
+      records = records.filter(function (record) {
+        return record.id !== recordId;
+      });
+
+      saveRecords();
+      render();
+    }
+  });
+
+  // clear all records
+  clearAllButton.addEventListener("click", function () {
+    if (records.length === 0) {
+      return;
+    }
+
+    if (confirm("Are you sure you want to delete all sensor readings?")) {
+      records = [];
+      saveRecords();
+      render();
+    }
+  });
+
+  // render sensor records
+  function render() {
+    queueCount.textContent = records.length;
+    totalCount.textContent = records.length;
+
+    const optimalRecords = records.filter(function (record) {
+      return record.status.level === "optimal";
+    });
+
+    optimalCount.textContent = optimalRecords.length;
+    alertCount.textContent = records.length - optimalRecords.length;
+
+    if (records.length === 0) {
+      emptyMessage.classList.remove("hidden");
+      logList.innerHTML = "";
+      return;
+    }
+
+    emptyMessage.classList.add("hidden");
+
+    const fragment = document.createDocumentFragment();
+
+    records.forEach(function (record) {
+      const article = document.createElement("article");
+
+      article.className = "sensor-record status-" + record.status.level;
+
+      article.innerHTML = `
+        <div class="record-header">
+          <div>
+            <h3>Greenhouse Bay ${escapeHtml(record.bay)}</h3>
+            <p class="record-time">
+              Logged at ${escapeHtml(record.timestamp)}
+            </p>
+          </div>
+
+          <span class="status">
+            ${escapeHtml(record.status.label)}
+          </span>
+        </div>
+
+        <div class="record-readings">
+          <div class="record-reading">
+            <span>pH Level</span>
+            <strong>${record.ph.toFixed(1)}</strong>
+          </div>
+
+          <div class="record-reading">
+            <span>Electrical Conductivity</span>
+            <strong>${record.ec.toFixed(1)} mS/cm</strong>
+          </div>
+
+          <div class="record-reading">
+            <span>Temperature</span>
+            <strong>${record.temperature.toFixed(1)} °F</strong>
+          </div>
+
+          <div class="record-reading">
+            <span>Relative Humidity</span>
+            <strong>${record.humidity.toFixed(1)}%</strong>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="delete-record"
+          data-id="${escapeHtml(record.id)}">
+          Delete Record
+        </button>
+      `;
+
+      fragment.appendChild(article);
+    });
+
+    logList.innerHTML = "";
+    logList.appendChild(fragment);
+  }
+
+  // error messages
+  function displayError(message) {
+    errorBanner.textContent = message;
+    errorBanner.classList.remove("hidden");
+  }
+
+  function hideError() {
+    errorBanner.textContent = "";
+    errorBanner.classList.add("hidden");
+  }
+
+  // escape html
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
 })();
