@@ -9,187 +9,183 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
   </head>
-</html>
 
-<body>
-  <header class="header">
-    <div class="brand">
-      <span Class="brand-icon" aria-hidden="true">🌱</span>
-    </div>
-    <div>
-      <h1>BloomSense</h1>
-      <p>Greenhouse Sensor Logger</p>
-    </div>
-
-    <div class="header-status">
-      Active Readings:
-      <span id=" queue-count">0</span>
-    </div>
-  </header>
-
-  <!-- MAIN DASHBOARD -->
-  <main class="dashboard">
-    <!-- DASHBOARD CARDS -->
-    <section id="sensor-entery" class="panel">
-      <div class="sensor-heading">
-        <p class="sensor-heading-text">DATA COLLECTION</p>
-        <h2>Record Sensor Readings</h2>
-        <p>Enter the latest environmental measurements.</p>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <span Class="brand-icon" aria-hidden="true">🌱</span>
+      </div>
+      <div>
+        <h1>BloomSense</h1>
+        <p>Greenhouse Sensor Logger</p>
       </div>
 
-      <!--Error Message Banner-->
-      <div
-        id="form-error-banner"
-        class="alert hidden"
-        role="alert"
-        aria-live="polite"
-      ></div>
-
-      <!--Sensor Form-->
-      <form id="sensor-form" novalidate>
-        <!-- GreenHouse Bay -->
-        <div class="form-group">
-          <label for="greenhouse-bay">Greenhouse Bay</label>
-          <select id="greenhouse-bay" name="greenhouse-bay" required>
-            <option value="">Select Bay</option>
-            <option value="Bay 1">Bay A</option>
-            <option value="Bay 2">Bay B</option>
-            <option value="Bay 3">Bay C</option>
-          </select>
-          <small id="bay-error" class="field-error"></small>
-        </div>
-
-        <!--pH level-->
-        <div class="form-group">
-          <label for="ph">pH Level</label>
-          <div class="input-with-unit">
-            <input
-              id="ph"
-              name="ph"
-              type="number"
-              min="0"
-              max="14"
-              step="0.1"
-              placeholder="e.g. 6.0"
-              required
-            />
-            <span>pH</span>
-          </div>
-          <small id="ph-error" class="field-error"></small>
-        </div>
-
-        <!--Electrical Conductivity-->
-        <div class="form-group">
-          <label for="ec">Electrical Conductivity</label>
-          <div class="input-with-unit">
-            <input
-              id="ec"
-              name="ec"
-              type="number"
-              min="0"
-              step="0.1"
-              placeholder="e.g. 1.5"
-              required
-            />
-            <span>mS/cm</span>
-          </div>
-          <small id="ec-error" class="field-error"></small>
-        </div>
-
-        <!-- Temperature -->
-        <div class="form-group">
-          <label for="temp">Temperature</label>
-          <div class="input-with-unit">
-            <input
-              id="temp"
-              name="temp"
-              type="number"
-              step="0.1"
-              placeholder="e.g. 68.0"
-              required
-            />
-            <span>°F</span>
-          </div>
-          <small id="temp-error" class="field-error"></small>
-        </div>
-
-        <!-- Relative Humidity -->
-        <div class="form-group">
-          <label for="humidity">Relative Humidity</label>
-          <div class="input-with-unit">
-            <input
-              id="humidity"
-              name="humidity"
-              type="number"
-              min="0"
-              max="100"
-              step="0.1"
-              placeholder="e.g. 60"
-              required
-            />
-            <span>%</span>
-          </div>
-          <small id="humidity-error" class="field-error"></small>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Record Reading</button>
-      </form>
-    </section>
-
-    <!-- SENSOR LOG HISTORY PANEL -->
-    <section id="log-history" class="panel">
-      <div class="record-header">
-        <div class="section-heading">
-          <p class="section-heading-text">MONITORING</p>
-          <h2>Sensor Log History</h2>
-          <p>View the most previous sensor reading.</p>
-        </div>
-
-        <button id="clear-all" class="btn btn-secondary" type="button">
-          Clear All
-        </button>
+      <div class="header-status">
+        Active Readings:
+        <span id="queue-count">0</span>
       </div>
-     <!-- DASHBOARD STATISTICS -->
-      <div class="summary-strip">
-        <div>
-          <span>Total Records</span>
-          <strong id="total-count">0</strong>
+    </header>
+
+    <!-- MAIN DASHBOARD -->
+    <main class="dashboard">
+      <!-- DASHBOARD CARDS -->
+      <section id="sensor-entery" class="panel">
+        <div class="sensor-heading">
+          <p class="sensor-heading-text">DATA COLLECTION</p>
+          <h2>Record Sensor Readings</h2>
+          <p>Enter the latest environmental measurements.</p>
         </div>
 
-        <div>
-          <span>Optimal</span>
-          <strong id="optimal-count">0</strong>
-        </div>
+        <!--Error Message Banner-->
+        <div
+          id="form-error-banner"
+          class="alert hidden"
+          role="alert"
+          aria-live="polite"
+        ></div>
 
-        <div>
-          <span>Warnings / Hazards</span>
-          <strong id="alert-count">0</strong>
-        </div>
-      </div>
+        <!--Sensor Form-->
+        <form id="sensor-form" novalidate>
+          <!-- GreenHouse Bay -->
+          <div class="form-group">
+            <label for="bay">Greenhouse Bay</label>
+            <select id="bay" name="bay" required>
+              <option value="">Select Bay</option>
+              <option value="A">Bay A</option>
+              <option value="B">Bay B</option>
+              <option value="C">Bay C</option>
+            </select>
+            <small id="bay-error" class="field-error"></small>
+          </div>
 
-      <!-- Empty Log Message -->
-      <p id="empty-message" class="empty-state">
-        🌿 No readings recorded yet. Add your first sensor
-        reading to get started.
-      </p>
+          <!--pH level-->
+          <div class="form-group">
+            <label for="ph">pH Level</label>
+            <div class="input-with-unit">
+              <input
+                id="ph"
+                name="ph"
+                type="number"
+                min="0"
+                max="14"
+                step="0.1"
+                placeholder="e.g. 6.0"
+                required
+              />
+              <span>pH</span>
+            </div>
+            <small id="ph-error" class="field-error"></small>
+          </div>
 
-      <!-- Dynamic Sensor Records -->
-      <section
-        id="log-list"
-        class="records-grid"
-        aria-label="Saved sensor readings"
-        aria-live="polite">
+          <!--Electrical Conductivity-->
+          <div class="form-group">
+            <label for="ec">Electrical Conductivity</label>
+            <div class="input-with-unit">
+              <input
+                id="ec"
+                name="ec"
+                type="number"
+                min="0"
+                step="0.1"
+                placeholder="e.g. 1.5"
+                required
+              />
+              <span>mS/cm</span>
+            </div>
+            <small id="ec-error" class="field-error"></small>
+          </div>
+
+          <!-- Temperature -->
+          <div class="form-group">
+            <label for="temp">Temperature</label>
+            <div class="input-with-unit">
+              <input
+                id="temp"
+                name="temp"
+                type="number"
+                step="0.1"
+                placeholder="e.g. 68.0"
+                required
+              />
+              <span>°F</span>
+            </div>
+            <small id="temp-error" class="field-error"></small>
+          </div>
+
+          <!-- Relative Humidity -->
+          <div class="form-group">
+            <label for="humidity">Relative Humidity</label>
+            <div class="input-with-unit">
+              <input
+                id="humidity"
+                name="humidity"
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                placeholder="e.g. 60"
+                required
+              />
+              <span>%</span>
+            </div>
+            <small id="humidity-error" class="field-error"></small>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary">Record Reading</button>
+        </form>
       </section>
 
-    </section>
+      <!-- SENSOR LOG HISTORY PANEL -->
+      <section id="log-history" class="panel">
+        <div class="record-header">
+          <div class="section-heading">
+            <p class="section-heading-text">MONITORING</p>
+            <h2>Sensor Log History</h2>
+            <p>View the most previous sensor reading.</p>
+          </div>
 
-  </main>
+          <button id="clear-all" class="btn btn-secondary" type="button">
+            Clear All
+          </button>
+        </div>
+        <!-- DASHBOARD STATISTICS -->
+        <div class="summary-strip">
+          <div>
+            <span>Total Records</span>
+            <strong id="total-count">0</strong>
+          </div>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <p>BloomSense · Greenhouse Environmental Monitoring</p>
-  </footer>
+          <div>
+            <span>Optimal</span>
+            <strong id="optimal-count">0</strong>
+          </div>
 
-</body>
+          <div>
+            <span>Warnings / Hazards</span>
+            <strong id="alert-count">0</strong>
+          </div>
+        </div>
+
+        <!-- Empty Log Message -->
+        <p id="empty-message" class="empty-state">
+          🌿 No readings recorded yet. Add your first sensor reading to get
+          started.
+        </p>
+
+        <!-- Dynamic Sensor Records -->
+        <section
+          id="log-list"
+          class="records-grid"
+          aria-label="Saved sensor readings"
+          aria-live="polite"
+        ></section>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <p>BloomSense · Greenhouse Environmental Monitoring</p>
+    </footer>
+  </body>
 </html>
